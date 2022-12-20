@@ -1,0 +1,21 @@
+deployment:
+  replicaCount: 2
+  livenessProbe:
+    failureThreshold: 3
+  readinessProbe:
+    failureThreshold: 3
+
+image:
+  development: false
+  repository: richardchesterwood/k8s-fleetman-helm-demo
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: v1.0.0
+
+
+service:
+  type: "NodePort"
+  port: 80
+  nodePort: 30080
+
+

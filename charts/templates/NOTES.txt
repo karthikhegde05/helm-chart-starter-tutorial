@@ -1,0 +1,2 @@
+Thank you for choosing to install this application on your cluster
+{{ .Chart.Name }} has been installed with the release name {{ .Release.Name }}

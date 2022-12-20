@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-webapp-deployment
+spec:
+  selector:
+      matchLabels:
+        app: {{ .Release.Name }}-webapp
+  replicas: {{ .Values.deployment.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-webapp
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-fleetman-webapp-container
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}{{if .Values.image.development }}-dev{{end}}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: {{ .Values.deployment.livenessProbe.failureThreshold }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: {{ .Values.deployment.readinessProbe.failureThreshold}}
